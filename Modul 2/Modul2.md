@@ -262,12 +262,3 @@ Program di atas adalah program C++ yang menggunakan array untuk menampilkan, men
 
 #### Full code Screenshot:
 <img width="798" height="972" alt="image" src="https://github.com/user-attachments/assets/81ebf6d8-0e9b-4fb8-a70c-2927eef5de0c" />
-
-
-
-
-## Kesimpulan
-Ringkasan dan interpretasi pandangan kalia dari hasil praktikum dan pembelajaran yang didapat[1].
-
-## Referensi
-[1] I. Holm, Narrator, and J. Fullerton-Smith, Producer, How to Build a Human [DVD]. London: BBC; 2002.
