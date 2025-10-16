@@ -40,7 +40,7 @@ int main(){
     return 0;
 }
 ```
-'''C++
+```C++
 #include "list1.h"
 #include <iostream>
 using namespace std;
