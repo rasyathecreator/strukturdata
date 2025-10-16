@@ -5,7 +5,8 @@
 
 Berikan penjelasan teori terkait materi modul ini dengan bahasa anda sendiri serta susunan yang terstruktur per topiknya.
 
-## Guided 
+
+### Guided 
 
 ### 1. Linked List 1
 #### mainguided1.cpp
@@ -177,11 +178,12 @@ void insertLast(linkedlist &List, address nodeBaru);
 
 #endif
 ```
-<div style="text-align: justify;"> Berdasarkan kode yang dilampirkan, ketiga file tersebut saling berhubungan untuk mengimplementasikan dan menguji sebuah *linked list* tunggal dengan data bertipe `mahasiswa`. File **list1.h** bertindak sebagai *header* yang mendefinisikan struktur data (`mahasiswa`, `node`, dan `linkedlist`), alias tipe data (`dataMahasiswa`, `address`), serta mendeklarasikan semua fungsi dan prosedur yang akan diimplementasikan untuk operasi *linked list*. File **listguided1.cpp** berisi implementasi dari fungsi-fungsi yang dideklarasikan di `list1.h`, seperti `isEmpty`, `createList`, `alokasi`, `dealokasi`, `insertFirst`, `insertAfter`, `insertLast`, dan `printList`, yang semuanya berfungsi untuk memanipulasi *linked list* (misalnya membuat, menambah elemen, dan menampilkan isinya). Terakhir, file **mainguided1.cpp** adalah program utama (`main`) yang menggunakan fungsi-fungsi dari kedua file sebelumnya; ia menginisialisasi *linked list* kosong, mengalokasikan beberapa *node* mahasiswa, memasukkannya ke dalam list menggunakan berbagai prosedur `insert`, dan kemudian menampilkan isi list yang dihasilkan untuk menguji implementasi. </div>
+Berdasarkan kode yang dilampirkan, ketiga file tersebut saling berhubungan untuk mengimplementasikan dan menguji sebuah *linked list* tunggal dengan data bertipe `mahasiswa`. File **list1.h** bertindak sebagai *header* yang mendefinisikan struktur data (`mahasiswa`, `node`, dan `linkedlist`), alias tipe data (`dataMahasiswa`, `address`), serta mendeklarasikan semua fungsi dan prosedur yang akan diimplementasikan untuk operasi *linked list*. File **listguided1.cpp** berisi implementasi dari fungsi-fungsi yang dideklarasikan di `list1.h`, seperti `isEmpty`, `createList`, `alokasi`, `dealokasi`, `insertFirst`, `insertAfter`, `insertLast`, dan `printList`, yang semuanya berfungsi untuk memanipulasi *linked list* (misalnya membuat, menambah elemen, dan menampilkan isinya). Terakhir, file **mainguided1.cpp** adalah program utama (`main`) yang menggunakan fungsi-fungsi dari kedua file sebelumnya; ia menginisialisasi *linked list* kosong, mengalokasikan beberapa *node* mahasiswa, memasukkannya ke dalam list menggunakan berbagai prosedur `insert`, dan kemudian menampilkan isi list yang dihasilkan untuk menguji implementasi.
+    
 ## Unguided 
 
 ### 1. [Soal]
-#### ungu1main.cpp
+#### main.cpp
 ```C++
 // File: main.cpp
 
@@ -226,7 +228,7 @@ int main() {
     return 0;
 }
 ```
-#### ungu1list.cpp
+#### list.cpp
 ```C++
 // File: Singlylist.h
 
@@ -254,7 +256,7 @@ void printInfo(List L);
 
 #endif // SINGLYLIST_H
 ```
-#### ungu1singlist.h
+#### singlylist.h
 ```C++
 // File: Singlylist.h
 
@@ -293,6 +295,207 @@ Ketiga file C++ ini bekerja sama untuk mengimplementasikan dan menguji **ADT (Ab
 <img width="396" height="973" alt="image" src="https://github.com/user-attachments/assets/18bdbe7c-186b-4db6-a430-1fa75c405cc9" />
 <img width="453" height="529" alt="image" src="https://github.com/user-attachments/assets/8e3a6fff-76d9-4802-857d-f10419fcb3c9" />
 
+### 2. Dari soal Latihan pertama, lakukan penghapusan node 9 menggunakan deleteFirst(), node 2 menggunakan deleteLast(), dan node 8 menggunakan deleteAfter(). Kemudian tampilkan jumlah node yang tersimpan menggunakan nbList() dan lakukan penghapusan seluruh node menggunakan deleteList().
+
+#### main.cpp
+```C++
+// File: unguided1main.cpp
+
+#include "ungu2singlist.h"
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    List L;
+    address P1, P2, P3, P4, P5;
+
+    createList(&L);
+
+    P1 = alokasi(2); insertFirst(&L, P1);
+    P2 = alokasi(0); insertFirst(&L, P2);
+    P3 = alokasi(8); insertFirst(&L, P3);
+    P4 = alokasi(12); insertFirst(&L, P4);
+    P5 = alokasi(9); insertFirst(&L, P5);
+
+    cout << "List Awal (untuk verifikasi): ";
+    printInfo(L);
+    cout << endl << endl;
+
+    address P_del;
+    
+    deleteFirst(&L, &P_del);
+    dealokasi(P_del);
+    
+    deleteLast(&L, &P_del); 
+    dealokasi(P_del);
+    
+    address Prec = search(L, 12); 
+
+    if (Prec != NULL && Prec->next != NULL && Prec->next->info == 8) {
+        deleteAfter(&L, &P_del, Prec);
+        dealokasi(P_del);
+    }
+
+    printInfo(L);
+    cout << endl; 
+    
+    cout << "Jumlah node : " << nbList(L) << endl; 
+
+    deleteList(&L);
+    cout << endl << "- List Berhasil Terhapus -" << endl;
+
+    cout << "Jumlah node : " << nbList(L) << endl; 
+
+    return 0;
+}
+```
+#### list.cpp
+```C++
+// File: unguided1list.cpp
+
+#include "ungu2singlist.h"
+#include <iostream>
+
+using namespace std;
+
+void createList(List *L) {
+    (*L).First = NULL;
+}
+
+address alokasi(infotype X) {
+    address P = new ElmList;
+    if (P != NULL) {
+        P->info = X;
+        P->next = NULL;
+    }
+    return P;
+}
+
+void dealokasi(address P) {
+    delete P;
+}
+
+void insertFirst(List *L, address P) {
+    if (P != NULL) {
+        P->next = (*L).First;
+        (*L).First = P;
+    }
+}
+
+void printInfo(List L) {
+    address P = L.First;
+    if (P == NULL) return; 
+
+    while (P != NULL) {
+        cout << P->info << " ";
+        P = P->next;
+    }
+}
+
+address search(List L, infotype X) {
+    address P = L.First;
+    while (P != NULL) {
+        if (P->info == X) {
+            return P;
+        }
+        P = P->next;
+    }
+    return NULL;
+}
+
+int nbList(List L) {
+    int count = 0;
+    address P = L.First;
+    while (P != NULL) {
+        count++;
+        P = P->next;
+    }
+    return count;
+}
+
+void deleteFirst(List *L, address *P) {
+    *P = (*L).First;
+    if (*P != NULL) {
+        (*L).First = (*L).First->next;
+        (*P)->next = NULL; 
+    }
+}
+
+void deleteLast(List *L, address *P) {
+    address Last = (*L).First;
+    address Prec = NULL;
+    
+    if (Last != NULL && Last->next == NULL) {
+        *P = Last;
+        (*L).First = NULL;
+        return;
+    }
+
+    while (Last != NULL && Last->next != NULL) {
+        Prec = Last;
+        Last = Last->next;
+    }
+
+    if (Last != NULL) {
+        *P = Last;
+        Prec->next = NULL;
+    }
+}
+
+void deleteAfter(List *L, address *Pdel, address Prec) {
+    if (Prec != NULL && Prec->next != NULL) {
+        *Pdel = Prec->next;
+        Prec->next = (*Pdel)->next;
+        (*Pdel)->next = NULL;
+    } else {
+        *Pdel = NULL;
+    }
+}
+
+void deleteList(List *L) {
+    address P;
+    while ((*L).First != NULL) {
+        deleteFirst(L, &P);
+        dealokasi(P);
+    }
+}
+```
+#### singlylist.h
+```C++
+// File: unguided1list.h
+
+#ifndef UNGUIDED1LIST_H
+#define UNGUIDED1LIST_H
+
+typedef int infotype;
+typedef struct ElmList *address;
+
+typedef struct ElmList {
+    infotype info;
+    address next;
+} ElmList;
+
+typedef struct {
+    address First;
+} List;
+
+void createList(List *L);
+address alokasi(infotype X);
+void dealokasi(address P);
+
+void insertFirst(List *L, address P);
+void printInfo(List L);
+
+int nbList(List L);
+address search(List L, infotype X); 
+void deleteFirst(List *L, address *P);
+void deleteLast(List *L, address *P);
+void deleteAfter(List *L, address *Pdel, address Prec);
+void deleteList(List *L);
+
+#endif // UNGUIDED1LIST_H
+```
 
 ## Kesimpulan
 Ringkasan dan interpretasi pandangan kalia dari hasil praktikum dan pembelajaran yang didapat[1].
