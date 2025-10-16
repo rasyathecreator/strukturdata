@@ -3,7 +3,7 @@
 
 ## Dasar Teori
 
-Berikan penjelasan teori terkait materi modul ini dengan bahasa anda sendiri serta susunan yang terstruktur per topiknya.
+Bahasa pemrograman **C++** merupakan pengembangan dari bahasa **C** yang mendukung konsep **pemrograman berorientasi objek (OOP)**, memungkinkan pembuatan program yang lebih modular dan efisien. Dalam penggunaannya, C++ memiliki beberapa konsep dasar penting, antara lain **struktur kendali**, **fungsi**, **array**, dan **pointer**. Struktur kendali seperti `if`, `switch`, `for`, dan `while` digunakan untuk mengatur alur logika program. **Fungsi** berperan dalam membagi program menjadi bagian-bagian kecil yang mudah dikelola, sedangkan **array** memungkinkan penyimpanan sekumpulan data bertipe sama dalam satu variabel. **Pointer** digunakan untuk menyimpan alamat memori suatu variabel dan memungkinkan manipulasi data secara langsung. Pemahaman terhadap keempat konsep ini menjadi dasar dalam membangun program C++ yang efisien, terstruktur, dan mudah dikembangkan.
 
 ## Guided 
 
