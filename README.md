@@ -1,5 +1,5 @@
-# <h1 align="center">Laporan Praktikum Modul Pengenalan Bahasa C++ (1)</h1>
-<p align="center">Arvinanto Bahtiar</p>
+# <h1 align="center">Laporan Praktikum Modul Pengenalan Bahasa C++ (2)</h1>
+<p align="center">Rasya Syahri Ramadhan</p>
 
 ## Dasar Teori
 
