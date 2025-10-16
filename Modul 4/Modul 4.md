@@ -8,7 +8,7 @@ Berikan penjelasan teori terkait materi modul ini dengan bahasa anda sendiri ser
 ## Guided 
 
 ### 1. Linked List 1
-
+#### mainguided1.cpp
 ```C++
 #include "list.h"
 
@@ -40,6 +40,7 @@ int main(){
     return 0;
 }
 ```
+#### listguided1.cpp
 ```C++
 #include "list1.h"
 #include <iostream>
