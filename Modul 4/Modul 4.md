@@ -181,23 +181,117 @@ void insertLast(linkedlist &List, address nodeBaru);
 ## Unguided 
 
 ### 1. [Soal]
-
+#### ungu1main.cpp
 ```C++
+// File: main.cpp
+
+#include "ungu1singlist.h"
 #include <iostream>
+
 using namespace std;
 
 int main() {
-    cout << "ini adalah file code unguided praktikan" << endl;
+    List L;
+    address P1, P2, P3, P4, P5 = NULL;
+
+    createList(&L);
+
+    P1 = alokasi(2);
+    insertFirst(&L, P1);
+
+    P2 = alokasi(0);
+    insertFirst(&L, P2);
+
+    P3 = alokasi(8);
+    insertFirst(&L, P3);
+
+    P4 = alokasi(12);
+    insertFirst(&L, P4);
+
+    P5 = alokasi(9);
+    insertFirst(&L, P5);
+
+    printInfo(L);
+
+    // Bagian tambahan untuk membersihkan memori (dealokasi semua elemen)
+    address current = L.First;
+    address temp;
+    while (current != NULL) {
+        temp = current;
+        current = current->next;
+        dealokasi(temp);
+    }
+    L.First = NULL;
+
     return 0;
 }
 ```
-#### Output:
-![240302_00h00m06s_screenshot](https://github.com/suxeno/Struktur-Data-Assignment/assets/111122086/6d1727a8-fb77-4ecf-81ff-5de9386686b7)
+#### ungu1list.cpp
+```C++
+// File: Singlylist.h
 
-Kode di atas digunakan untuk mencetak teks "ini adalah file code guided praktikan" ke layar menggunakan function cout untuk mengeksekusi nya.
+#ifndef SINGLYLIST_H
+#define SINGLYLIST_H
+
+typedef int infotype;
+typedef struct ElmList *address;
+
+typedef struct ElmList {
+    infotype info;
+    address next;
+} ElmList;
+
+typedef struct {
+    address First;
+} List;
+
+void createList(List *L);
+address alokasi(infotype X);
+void dealokasi(address P);
+
+void insertFirst(List *L, address P);
+void printInfo(List L);
+
+#endif // SINGLYLIST_H
+```
+#### ungu1singlist.h
+```C++
+// File: Singlylist.h
+
+#ifndef SINGLYLIST_H
+#define SINGLYLIST_H
+
+typedef int infotype;
+typedef struct ElmList *address;
+
+typedef struct ElmList {
+    infotype info;
+    address next;
+} ElmList;
+
+typedef struct {
+    address First;
+} List;
+
+void createList(List *L);
+address alokasi(infotype X);
+void dealokasi(address P);
+
+void insertFirst(List *L, address P);
+void printInfo(List L);
+
+#endif // SINGLYLIST_H
+```
+#### Output:
+<img width="679" height="242" alt="image" src="https://github.com/user-attachments/assets/af8f3f5c-a963-40c4-9472-9ab0b221b23e" />
+
+
+Ketiga file C++ ini bekerja sama untuk mengimplementasikan dan menguji **ADT (Abstract Data Type) Singly Linked List**. File **`unguided1list.h`** berfungsi sebagai *interface*, mendefinisikan struktur data (`List`, `ElmList`, `address`) dan mendeklarasikan *prototype* untuk operasi dasar (seperti `createList`, `alokasi`, `insertFirst`, dan `printInfo`). File **`unguided1list.cpp`** menyediakan **implementasi** konkret dari semua *prototype* yang ada di file header, berisi kode logis untuk manajemen memori dan manipulasi pointer. Terakhir, file **`unguided1main.cpp`** bertindak sebagai **program utama** yang menguji ADT tersebut dengan membuat sebuah *list* kosong, mengalokasikan dan menyisipkan lima elemen data (`2, 0, 8, 12, 9`) secara berurutan menggunakan prosedur `insertFirst`, dan kemudian mencetak isi *list* tersebut ke konsol.
 
 #### Full code Screenshot:
-![240309_10h21m35s_screenshot](https://github.com/suxeno/Struktur-Data-Assignment/assets/111122086/41e9641c-ad4e-4e50-9ca4-a0215e336b04)
+<img width="667" height="855" alt="image" src="https://github.com/user-attachments/assets/3d07b937-0873-4703-9f60-e9d3d8b240a2" />
+<img width="396" height="973" alt="image" src="https://github.com/user-attachments/assets/18bdbe7c-186b-4db6-a430-1fa75c405cc9" />
+<img width="453" height="529" alt="image" src="https://github.com/user-attachments/assets/8e3a6fff-76d9-4802-857d-f10419fcb3c9" />
 
 
 ## Kesimpulan
