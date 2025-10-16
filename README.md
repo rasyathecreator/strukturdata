@@ -174,13 +174,110 @@ int main() {
 #### Output:
 <img width="471" height="527" alt="image" src="https://github.com/user-attachments/assets/03155e34-324f-4697-8741-99de7ea0588f" />
 
-
-
-
-
 Program di atas adalah program C++ yang mendemonstrasikan perbedaan antara call by pointer dan call by reference dalam pertukaran nilai tiga variabel. Program menggunakan fungsi tukar_pointer() yang menerima alamat variabel sebagai parameter (int*) dan tukar_reference() yang menggunakan referensi (int&). Kedua fungsi tersebut menukar nilai variabel a, b, dan c secara bergantian dengan menggunakan variabel sementara temp. Fungsi cetak_nilai() digunakan untuk menampilkan nilai dan alamat memori dari setiap variabel dengan format rapi menggunakan setw() dari library <iomanip>. Pada bagian main(), program pertama-tama menukar nilai a, b, dan c menggunakan metode pointer, lalu mengulangi proses dengan metode reference untuk menunjukkan bahwa keduanya dapat mengubah nilai variabel asli di luar fungsi.
 #### Full code Screenshot:
 <img width="682" height="979" alt="image" src="https://github.com/user-attachments/assets/30cce089-139f-4c4f-8d9a-e714910aebe0" />
+
+### 2. Diketahui sebuah array 1 dimensi sebagai berikut : arrA = {11, 8, 5, 7, 12, 26, 3, 54, 33, 55} Buatlah program yang dapat mencari nilai minimum, maksimum, dan rata – rata dari array tersebut! Gunakan function cariMinimum() untuk mencari nilai minimum dan function cariMaksimum() untuk mencari nilai maksimum, serta gunakan prosedur hitungRataRata() untuk menghitung nilai rata – rata! Buat program menggunakan menu switch-case seperti berikut ini :
+'''C++
+--- Menu Program Array ---
+1. Tampilkan isi array
+2. cari nilai maksimum
+3. cari nilai minimum
+4. Hitung nilai rata - rata
+'''
+
+
+```C++
+#include <iostream>
+using namespace std;
+
+// Fungsi mencari nilai minimum
+int cariMinimum(int arr[], int n) {
+    int min = arr[0];
+    for (int i = 1; i < n; i++) {
+        if (arr[i] < min)
+            min = arr[i];
+    }
+    return min;
+}
+
+// Fungsi mencari nilai maksimum
+int cariMaksimum(int arr[], int n) {
+    int maks = arr[0];
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > maks)
+            maks = arr[i];
+    }
+    return maks;
+}
+
+// Prosedur menghitung rata-rata
+void hitungRataRata(int arr[], int n) {
+    float total = 0;
+    for (int i = 0; i < n; i++) {
+        total += arr[i];
+    }
+    float rata = total / n;
+    cout << "Nilai rata-rata array adalah: " << rata << endl;
+}
+
+int main() {
+    int arrA[] = {11, 8, 5, 7, 12, 26, 3, 54, 33, 55};
+    int n = sizeof(arrA) / sizeof(arrA[0]);
+    int pilihan;
+
+    do {
+        cout << "\n--- Menu Program Array ---\n";
+        cout << "1. Tampilkan isi array\n";
+        cout << "2. Cari nilai maksimum\n";
+        cout << "3. Cari nilai minimum\n";
+        cout << "4. Hitung nilai rata-rata\n";
+        cout << "5. Keluar\n";
+        cout << "Pilih menu (1-5): ";
+        cin >> pilihan;
+
+        switch (pilihan) {
+            case 1:
+                cout << "Isi array: ";
+                for (int i = 0; i < n; i++)
+                    cout << arrA[i] << " ";
+                cout << endl;
+                break;
+
+            case 2:
+                cout << "Nilai maksimum: " << cariMaksimum(arrA, n) << endl;
+                break;
+
+            case 3:
+                cout << "Nilai minimum: " << cariMinimum(arrA, n) << endl;
+                break;
+
+            case 4:
+                hitungRataRata(arrA, n);
+                break;
+
+            case 5:
+                cout << "Program selesai.\n";
+                break;
+
+            default:
+                cout << "Pilihan tidak valid!\n";
+        }
+    } while (pilihan != 5);
+
+    return 0;
+}
+```
+#### Output:
+<img width="478" height="928" alt="image" src="https://github.com/user-attachments/assets/b9da5769-a688-451f-aa6a-1945a4f966aa" />
+
+Program di atas adalah program C++ yang menggunakan array untuk menampilkan, mencari, dan menghitung data numerik dengan beberapa pilihan menu. Program menyimpan 10 elemen bilangan dalam array arrA, kemudian menampilkan menu interaktif yang memungkinkan pengguna memilih operasi tertentu. Fungsi cariMaksimum() digunakan untuk mencari nilai terbesar dalam array, sedangkan cariMinimum() mencari nilai terkecil. Prosedur hitungRataRata() menghitung dan menampilkan nilai rata-rata elemen array. Program menggunakan struktur kontrol do-while dan switch untuk menjalankan menu berulang kali hingga pengguna memilih keluar (opsi 5). Dengan demikian, program ini menunjukkan cara dasar penggunaan fungsi, array, dan kontrol alur dalam C++.
+
+#### Full code Screenshot:
+<img width="798" height="972" alt="image" src="https://github.com/user-attachments/assets/81ebf6d8-0e9b-4fb8-a70c-2927eef5de0c" />
+
+
 
 
 ## Kesimpulan
