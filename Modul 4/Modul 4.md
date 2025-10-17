@@ -197,7 +197,35 @@ procedure dealokasi( input/output P : address )
 procedure printInfo( input L : List )
 procedure insertFirst( input/output L : List, input P : address )
 ```
+### Kemudian buatlah implementasi dari procedure-procedure yang digunakan didalam file “Singlylist.cpp”. Kemudian buat program utama didalam file “main.cpp” dengan implementasi sebagai berikut :
+```C++
+int main() {
+    List L;
+    address P1, P2, P3, P4, P5 = Nil;
 
+    createList(L);
+
+    P1 = alokasi(2);
+    insertFirst(L, P1);
+
+    P2 = alokasi(0);
+    insertFirst(L, P2);
+
+    P3 = alokasi(8);
+    insertFirst(L, P3);
+
+    P4 = alokasi(12);
+    insertFirst(L, P4);
+
+    P5 = alokasi(9);
+    insertFirst(L, P5);
+
+    printInfo(L);
+    
+    return 0;
+}
+```
+### KODE PROGRAM
 #### main.cpp
 ```C++
 // File: main.cpp
@@ -306,9 +334,9 @@ void printInfo(List L);
 Ketiga file C++ ini bekerja sama untuk mengimplementasikan dan menguji **ADT (Abstract Data Type) Singly Linked List**. File **`unguided1list.h`** berfungsi sebagai *interface*, mendefinisikan struktur data (`List`, `ElmList`, `address`) dan mendeklarasikan *prototype* untuk operasi dasar (seperti `createList`, `alokasi`, `insertFirst`, dan `printInfo`). File **`unguided1list.cpp`** menyediakan **implementasi** konkret dari semua *prototype* yang ada di file header, berisi kode logis untuk manajemen memori dan manipulasi pointer. Terakhir, file **`unguided1main.cpp`** bertindak sebagai **program utama** yang menguji ADT tersebut dengan membuat sebuah *list* kosong, mengalokasikan dan menyisipkan lima elemen data (`2, 0, 8, 12, 9`) secara berurutan menggunakan prosedur `insertFirst`, dan kemudian mencetak isi *list* tersebut ke konsol.
 
 #### Full code Screenshot:
-<img width="667" height="855" alt="image" src="https://github.com/user-attachments/assets/3d07b937-0873-4703-9f60-e9d3d8b240a2" />
 <img width="396" height="973" alt="image" src="https://github.com/user-attachments/assets/18bdbe7c-186b-4db6-a430-1fa75c405cc9" />
 <img width="453" height="529" alt="image" src="https://github.com/user-attachments/assets/8e3a6fff-76d9-4802-857d-f10419fcb3c9" />
+<img width="667" height="855" alt="image" src="https://github.com/user-attachments/assets/3d07b937-0873-4703-9f60-e9d3d8b240a2" />
 
 ### 2. Dari soal Latihan pertama, lakukan penghapusan node 9 menggunakan deleteFirst(), node 2 menggunakan deleteLast(), dan node 8 menggunakan deleteAfter(). Kemudian tampilkan jumlah node yang tersimpan menggunakan nbList() dan lakukan penghapusan seluruh node menggunakan deleteList().
 
@@ -512,8 +540,17 @@ void deleteList(List *L);
 #endif // UNGUIDED1LIST_H
 ```
 
-## Kesimpulan
-Ringkasan dan interpretasi pandangan kalia dari hasil praktikum dan pembelajaran yang didapat[1].
+#### Output
+<img width="830" height="187" alt="image" src="https://github.com/user-attachments/assets/b739ad86-870c-4cea-8407-ccb006ff0660" />
+Ketiga berkas tersebut membentuk implementasi **struktur data *singly linked list*** dalam bahasa C++. Berkas **`ungu2singlist.h`** mendefinisikan tipe data dasar (*`infotype`* sebagai *`int`*, *`address`* sebagai pointer ke *`ElmList`*, dan struktur *`ElmList`* serta *`List`*) dan mendeklarasikan semua fungsi/prosedur operasi *list*. Berkas **`ungu2list.cpp`** berisi implementasi lengkap dari prosedur-prosedur yang dideklarasikan, seperti inisialisasi (*`createList`*), alokasi/dealokasi elemen (*`alokasi`*, *`dealokasi`*), penyisipan (*`insertFirst`*), pencarian (*`search`*), perhitungan jumlah elemen (*`nbList`*), pencetakan (*`printInfo`*), dan penghapusan elemen dari awal, akhir, dan setelah elemen tertentu (*`deleteFirst`*, *`deleteLast`*, *`deleteAfter`*, serta *`deleteList`* untuk menghapus seluruh list). Terakhir, berkas **`ungu2main.cpp`** berfungsi sebagai program utama yang menggunakan semua operasi tersebut: ia membuat list `L`, menyisipkan lima nilai (9, 12, 8, 0, 2) menggunakan `insertFirst`, lalu melakukan serangkaian operasi penghapusan (*`deleteFirst`*, *`deleteLast`*, *`deleteAfter`* untuk menghapus elemen 8), mencetak sisa list, menghitung jumlah node, dan akhirnya menghapus seluruh list menggunakan `deleteList`.
 
-## Referensi
-[1] I. Holm, Narrator, and J. Fullerton-Smith, Producer, How to Build a Human [DVD]. London: BBC; 2002.
+#### Full Code Screenshot
+<img width="1451" height="870" alt="image" src="https://github.com/user-attachments/assets/d86758a1-0937-4dc6-99d1-bd3d270bdaa1" />
+<img width="1455" height="865" alt="image" src="https://github.com/user-attachments/assets/fb66fd2e-2f0f-47dd-a664-a10a558fb63a" />
+<img width="1646" height="937" alt="image" src="https://github.com/user-attachments/assets/7fc91afa-901e-488d-9cea-e868acdac44b" />
+
+
+
+## Kesimpulan
+Praktikum ini berhasil mengimplementasikan struktur data **singly linked list** dalam C++, mencakup definisi node (`ElmList`) dan kepala list (`List`), serta seluruh operasi manipulasi esensial seperti inisialisasi (`createList`), manajemen memori dinamis (`alokasi`, `dealokasi`), penyisipan (`insertFirst`), pencarian (`search`), dan berbagai jenis penghapusan (`deleteFirst`, `deleteLast`, `deleteAfter`). Program utama menguji fungsionalitas ini dengan membangun list awal **9, 12, 8, 0, 2** dan kemudian secara berurutan menghapus elemen pertama (9), elemen terakhir (2), dan elemen setelah 12 (8), menyisakan **12, 0**. Pembelajaran utama yang didapat adalah pemahaman mendalam tentang peran **pointer (`address`)** dalam menghubungkan node secara non-sekuensial, efisiensi waktu $O(1)$ untuk operasi di awal list, kompleksitas $O(n)$ untuk operasi di akhir list, dan pentingnya **manajemen memori eksplisit** untuk mencegah *memory leak*.
+
