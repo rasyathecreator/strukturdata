@@ -182,7 +182,22 @@ Berdasarkan kode yang dilampirkan, ketiga file tersebut saling berhubungan untuk
     
 ## Unguided 
 
-### 1. [Soal]
+### 1. Buatlah ADT Singly Linked list sebagai berikut di dalam file “Singlylist.h”
+```C++
+Type infotype : int
+Type address : pointer to ElmList
+Type ElmList <
+    info : infotype
+    next : address
+>
+Type List : < First : address >
+procedure CreateList( input/output L : List )
+function alokasi( x : infotype ) -> address
+procedure dealokasi( input/output P : address )
+procedure printInfo( input L : List )
+procedure insertFirst( input/output L : List, input P : address )
+```
+
 #### main.cpp
 ```C++
 // File: main.cpp
