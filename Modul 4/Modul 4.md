@@ -3,8 +3,9 @@
 
 ## Dasar Teori
 
-Berikan penjelasan teori terkait materi modul ini dengan bahasa anda sendiri serta susunan yang terstruktur per topiknya.
+Singly Linked List (SLL) adalah struktur data fleksibel yang elemen-elemennya terhubung secara non-sekuensial menggunakan pointer. Pendekatan berbasis pointer (dinamis) ini dipilih karena lebih sesuai untuk menangani list yang dapat tumbuh dan mengerut dibandingkan Array (statis). SLL dicirikan hanya memiliki satu arah pointer , di mana setiap elemen (node) terdiri dari dua komponen: Data (Info), yaitu informasi yang disimpan, dan Successor (Next), yaitu pointer yang menunjuk ke elemen berikutnya. List ini dikendalikan oleh pointer first yang menunjuk ke node awal, sementara node terakhir selalu ditandai dengan Nil atau NULL.
 
+Operasi pada SLL meliputi penciptaan list kosong (CreateList) dan manajemen memori dinamis melalui alokasi() (untuk menyediakan memori, menggunakan new di C++) serta dealokasi() (untuk membebaskan memori, menggunakan delete). Manipulasi data utama dilakukan melalui operasi Insert (di awal, akhir, atau setelah node tertentu) dan Delete (di awal, akhir, atau setelah node tertentu), yang merupakan inti dari ADT Linked List. Selain itu, terdapat operasi penelusuran (printInfo) dan pencarian (Searching) untuk mengakses data dalam list.
 
 ### Guided 
 
