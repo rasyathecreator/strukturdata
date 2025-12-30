@@ -242,7 +242,6 @@ Program di atas merupakan implementasi struktur data **Binary Search Tree (BST)*
 * **Efisiensi Pencarian**: Karena mengikuti aturan BST, proses pencarian data menjadi lebih cepat karena program dapat mengabaikan setengah bagian pohon di setiap langkahnya.
 * **Metode Traversal**: Memberikan perspektif berbeda dalam membaca isi pohon, baik dari akar ke daun maupun sebaliknya.
 
-Apakah Anda ingin saya membantu menjelaskan lebih detail mengenai bagaimana proses penghapusan simpul yang memiliki dua anak bekerja dalam logika program tersebut?
 ### Full code screenshot
 <img width="1860" height="972" alt="image" src="https://github.com/user-attachments/assets/1d741356-97ed-4208-8bff-0757e49827f9" />
 
