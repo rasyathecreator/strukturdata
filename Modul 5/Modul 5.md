@@ -3,555 +3,615 @@
 <p align="center">Rasya Syahri Ramadhan</p>
 
 ## Dasar Teori
+Single linked list merupakan struktur data linier dinamis yang terdiri dari node-node yang saling terhubung secara searah melalui pointer next. Setiap node menyimpan data dan referensi ke node berikutnya, dengan node terakhir menunjuk ke NULL sebagai penanda akhir list.[1][2][3][5]
 
-Singly Linked List (SLL) adalah struktur data fleksibel yang elemen-elemennya terhubung secara non-sekuensial menggunakan pointer. Pendekatan berbasis pointer (dinamis) ini dipilih karena lebih sesuai untuk menangani list yang dapat tumbuh dan mengerut dibandingkan Array (statis). SLL dicirikan hanya memiliki satu arah pointer , di mana setiap elemen (node) terdiri dari dua komponen: Data (Info), yaitu informasi yang disimpan, dan Successor (Next), yaitu pointer yang menunjuk ke elemen berikutnya. List ini dikendalikan oleh pointer first yang menunjuk ke node awal, sementara node terakhir selalu ditandai dengan Nil atau NULL.
+### Definisi
+Single linked list, juga disebut singly linked list, adalah senarai berantai unidirectional di mana navigasi hanya dari head ke tail, berbeda dengan array yang memerlukan memori kontigu. Akses elemen dimulai dari head pointer, cocok untuk operasi insert/delete dinamis tanpa shifting elemen.[2][5][7][1]
 
-Operasi pada SLL meliputi penciptaan list kosong (CreateList) dan manajemen memori dinamis melalui alokasi() (untuk menyediakan memori, menggunakan new di C++) serta dealokasi() (untuk membebaskan memori, menggunakan delete). Manipulasi data utama dilakukan melalui operasi Insert (di awal, akhir, atau setelah node tertentu) dan Delete (di awal, akhir, atau setelah node tertentu), yang merupakan inti dari ADT Linked List. Selain itu, terdapat operasi penelusuran (printInfo) dan pencarian (Searching) untuk mengakses data dalam list.
+### Komponen Node
+Setiap node memiliki dua field utama: data (nilai seperti int atau string) dan next (pointer ke node berikutnya). Struktur node biasanya didefinisikan sebagai struct dengan alokasi memori dinamis.[3][4][6][1]
+
+### Operasi Dasar
+- **Insertion**: Di awal (update head), akhir (traverse ke tail), atau posisi tengah dengan O(n) traversal.[5][2]
+- **Deletion**: Hapus node dengan menyesuaikan pointer next tetangga, efisien di head tapi O(n) di posisi lain.[6][3]
+- **Traversal/Search**: Mulai dari head hingga NULL, kompleksitas O(n).[7][1]
+- **IsEmpty**: Cek head == NULL.[5]
+
+### Kelebihan dan Kekurangan
+Single linked list hemat memori dibanding array untuk ukuran dinamis, mendukung insert/delete O(1) di head, tetapi tidak efisien untuk akses acak atau navigasi mundur. Overhead pointer menambah ukuran per node sekitar 4-8 byte.[2][3][7][5]
 
 ### Guided 
 
 ### 1. Linked List 1
-#### mainguided1.cpp
+`guided.cpp   `
 ```C++
-#include "list.h"
-
-#include<iostream>
-using namespace std;
-
-int main(){
-    linkedlist List;
-    address nodeA, nodeB, nodeC, nodeD, nodeE = Nil;
-    createList(List);
-
-    dataMahasiswa mhs;
-
-    nodeA = alokasi("Dhimas", "2311102151", 20);
-    nodeB = alokasi("Arvin", "2211110014", 21);
-    nodeC = alokasi("Rizal", "2311110029", 20);
-    nodeD = alokasi("Satrio", "2211102173", 21);
-    nodeE = alokasi("Joshua", "2311102133", 21);
-
-    insertFirst(List, nodeA);
-    insertLast(List, nodeB);
-    insertAfter(List, nodeC, nodeA);
-    insertAfter(List, nodeD, nodeC);
-    insertLast(List, nodeE);
-
-    cout << "--- ISI LIST SETELAH DILAKUKAN INSERT ---" << endl;
-    printList(List);
-
-    return 0;
-}
-```
-#### listguided1.cpp
-```C++
-#include "list1.h"
 #include <iostream>
 using namespace std;
 
-//I.S = Initial State / kondisi awal
-//F.S = Final State / kondisi akhir
+struct Node {
+   int    isbn;
+   string judul;
+   string penulis;
+   Node*  next;
+};
 
-//fungsi untuk cek apakah list kosong atau tidak
-bool isEmpty(linkedlist List) {
-    if(List.first == Nil){
-        return true; 
-    } else {
-        return false;
-    }
+Node* head = nullptr;
+
+Node* buat_node(int isbn, string judul, string penulis) {
+   Node* newNode    = new Node();
+
+   newNode->isbn    = isbn;
+   newNode->judul   = judul;
+   newNode->penulis = penulis;
+
+   newNode->next    = nullptr;
+
+   return newNode;
 }
 
-//pembuatan linked list kosong
-void createList(linkedlist &List) {
-    /* I.S. sembarang
-       F.S. terbentuk list kosong */
-    List.first = Nil;
+void tambah_buku(int isbn, string judul, string penulis) {
+   Node* newNode = buat_node(isbn, judul, penulis);
+
+   if (head == nullptr) {
+      head = newNode;
+   } else {
+      Node* temp = head;
+      while (temp->next != nullptr) {
+         temp = temp->next;
+      }
+      temp->next = newNode;
+   }
+
+   cout << "buku \"" << judul << "\" oleh " << penulis << " dengan isbn " << isbn << " berhasil ditambahkan.\n";
 }
 
-//pembuatan node baru dengan menerapkan manajemen memori
-address alokasi(string nama, string nim, int umur) { 
-    /* I.S. sembarang
-       F.S. mengembalikan alamat node baru dengan isidata = sesuai parameter dan next = Nil */
-    address nodeBaru = new node; 
-    nodeBaru->isidata.nama = nama;
-    nodeBaru->isidata.nim = nim; 
-    nodeBaru->isidata.umur = umur;
-    nodeBaru->next = Nil;
-    return nodeBaru;
+void hapusNode(int isbn) {
+   if (head == nullptr) {
+      cout << "list kosong!\n";
+      return;
+   }
+
+   Node* temp = head;
+   Node* prev = nullptr;
+
+   if (temp != nullptr && temp->isbn == isbn) {
+      head = temp->next;
+      delete temp;
+      cout << "buku dengan isbn " << isbn << 
+      " berhasil dihapus.\n";
+      return;
+   }
+
+   while (temp != nullptr && temp->isbn != isbn) {
+      prev = temp;
+      temp = temp->next;
+   }
+
+   if (temp == nullptr) {
+      cout << "isbn " << isbn << " nggak ditemukan!\n";
+      return;
+   }
+
+   prev->next = temp->next;
+   delete temp;
+   cout << "buku dengan isbn " << isbn << " berhasil dihapus.\n";
 }
 
-//penghapusan node dengan menerapkan manajemen memori
-void dealokasi(address &node) {
-    /* I.S. P terdefinisi
-       F.S. memori yang digunakan node dikembalikan ke sistem */
-    node->next = Nil;
-    delete node;
+void updateNode(int isbnLama, int isbnBaru, string judulBaru, string penulisBaru) {
+   Node* temp = head;
+
+   while (temp != nullptr && temp->isbn != isbnLama) {
+      temp = temp->next;
+   }
+
+   if (temp == nullptr) {
+      cout << "isbn " << isbnLama << " nggak ditemukan!\n";
+   } else {
+      temp->isbn = isbnBaru;
+      temp->judul = judulBaru;
+      temp->penulis = penulisBaru;
+      cout << "buku berhasil diupdate jadi: "
+           << judulBaru << " oleh " << penulisBaru 
+           << " (isbn " << isbnBaru << ")\n";
+   }
 }
 
-//prosedur-prosedur untuk insert / menambahkan node baru kedalam list
-void insertFirst(linkedlist &List, address nodeBaru) {
-    /* I.S. sembarang, P sudah dialokasikan
-       F.S. menempatkan elemen list (node) pada awal list */
-    nodeBaru->next = List.first; 
-    List.first = nodeBaru;
+void tampilkanList() {
+   if (head == nullptr) {
+      cout << "list kosong!\n";
+      return;
+   }
+
+   Node* temp = head;
+   cout << "isi linked list:\n";
+
+   while (temp != nullptr) {
+      cout << "isbn: " << temp->isbn 
+           << ", judul: " << temp->judul 
+           << ", penulis: " << temp->penulis << endl;
+      temp = temp->next;
+   }
 }
 
-void insertAfter(linkedlist &List, address nodeBaru, address Prev) {
-    /* I.S. sembarang, nodeBaru dan Prev alamat salah satu elemen list (node)
-       F.S. menempatkan elemen (node) sesudah elemen node Prev */
-    if (Prev != Nil) {
-        nodeBaru->next = Prev->next;
-        Prev->next = nodeBaru;
-    } else {
-        cout << "Node sebelumnya tidak valid!" << endl;
-    }
+void cari_buku_berdasarkan_isbn(int isbn) {
+   Node* temp = head;
+
+   while (temp != nullptr) {
+      if (temp->isbn == isbn) {
+         cout << "buku ditemukan: "
+              << temp->judul << " oleh " << temp->penulis 
+              << " (isbn " << temp->isbn << ")\n";
+         return;
+      }
+      temp = temp->next;
+   }
+
+   cout << "buku dengan isbn " << isbn << " tidak ditemukan!\n";
 }
 
-void insertLast(linkedlist &List, address nodeBaru) {
-    /* I.S. sembarang, nodeBaru sudah dialokasikan
-       F.S. menempatkan elemen nodeBaru pada akhir list */
-    if (isEmpty(List)) {
-        List.first = nodeBaru;
-    } else {
-        address nodeBantu = List.first;
-        while (nodeBantu->next != Nil) {
-            nodeBantu = nodeBantu->next;
-        }
-        nodeBantu->next = nodeBaru;
-    }
-}
+int main() {
+   int pilihan, isbn, isbnBaru;
+   string judul, penulis, judulBaru, penulisBaru;
 
-//prosedur untuk menampilkan isi list
-void printList(linkedlist List) {
-    /* I.S. list mungkin kosong
-       F.S. jika list tidak kosong menampilkan semua info yang ada pada list */
-    if (isEmpty(List)) {
-        cout << "List kosong." << endl;
-    } else {
-        address nodeBantu = List.first;
-        while (nodeBantu != Nil) { 
-            cout << "Nama : " << nodeBantu->isidata.nama << ", NIM : " << nodeBantu->isidata.nim 
-            << ", Usia : " << nodeBantu->isidata.umur << endl;
-            nodeBantu = nodeBantu->next;
-        }
-    }
+   do {
+      cout << "\n=== menu single linked list buku ===\n";
+      cout << "1. insert belakang\n";
+      cout << "2. hapus isbn\n";
+      cout << "3. update buku\n";
+      cout << "4. tampilkan list\n";
+      cout << "5. cari buku berdasarkan isbn\n";
+      cout << "0. keluar\n";
+      cout << "pilih: ";
+      cin >> pilihan;
+
+      switch (pilihan) {
+         case 1:
+            cout << "masukkan isbn: ";
+            cin >> isbn;
+            cin.ignore();
+            cout << "masukkan judul: ";
+            getline(cin, judul);
+            cout << "masukkan penulis: ";
+            getline(cin, penulis);
+            tambah_buku(isbn, judul, penulis);
+            break;
+         case 2:
+            cout << "masukkan isbn yang ingin dihapus: ";
+            cin >> isbn;
+            hapusNode(isbn);
+            break;
+         case 3:
+            cout << "masukkan isbn lama: ";
+            cin >> isbn;
+            cout << "masukkan isbn baru: ";
+            cin >> isbnBaru;
+            cin.ignore();
+            cout << "masukkan judul baru: ";
+            getline(cin, judulBaru);
+            cout << "masukkan penulis baru: ";
+            getline(cin, penulisBaru);
+            updateNode(isbn, isbnBaru, judulBaru, penulisBaru);
+            break;
+         case 4:
+            tampilkanList();
+            break;
+         case 5:
+            cout << "masukkan isbn yang dicari: ";
+            cin >> isbn;
+            cari_buku_berdasarkan_isbn(isbn);
+            break;
+         case 0:
+            cout << "program selesai.\n";
+            break;
+         default:
+            cout << "pilihan nggak valid!\n";
+      }
+   } while (pilihan != 0);
+
+   return 0;
 }
 ```
-#### list1.h
-```C++
+### Output
+<img width="1083" height="754" alt="image" src="https://github.com/user-attachments/assets/f3d2e064-db1c-458c-a84f-29512352cb67" />
 
-//
-#ifndef LIST_H
-#define LIST_H
-#define Nil NULL
+Program C++ di atas merupakan implementasi struktur data Single Linked List yang digunakan untuk mengelola sistem pendataan buku sederhana secara dinamis di memori. Data setiap buku disimpan dalam sebuah struct Node yang mencakup informasi berupa nomor ISBN, judul buku, dan nama penulis, serta sebuah pointer next untuk menghubungkan satu buku ke buku berikutnya. Program ini menggunakan manajemen memori manual dengan operator new untuk mengalokasikan data baru dan delete untuk menghapus data, sehingga daftar buku dapat bertambah atau berkurang sesuai kebutuhan tanpa dibatasi oleh ukuran array statis.
 
-#include <iostream>
-using namespace std;
+Secara fungsionalitas, program ini menyediakan antarmuka berbasis menu interaktif yang memungkinkan pengguna melakukan operasi CRUD (Create, Read, Update, Delete). Pengguna dapat menambahkan buku ke urutan paling belakang melalui fungsi tambah_buku, mencari buku spesifik berdasarkan nomor ISBN, serta memperbarui detail informasi buku yang sudah ada. Selain itu, terdapat mekanisme penghapusan buku berdasarkan ISBN yang bekerja dengan cara mengatur ulang sambungan pointer dari node sebelumnya agar melompati node yang akan dihapus sebelum memori tersebut dibebaskan. Program akan terus berjalan dalam siklus perulangan do-while hingga pengguna memilih opsi untuk keluar.
 
-//deklarasi isi data struct mahasiswa
-struct mahasiswa{
-    string nama;
-    string nim;
-    int umur;
-};
+### Screenshot Fullcode
+<img width="1689" height="1006" alt="image" src="https://github.com/user-attachments/assets/1a651b08-ba4e-410e-91ad-f608b7fe6955" />
 
-typedef mahasiswa dataMahasiswa; //Membiarkan nama alias dataMahasiswa untuk struct mahasiswa
-
-typedef struct node *address; //Mendefinisikan alias address sbg pointer ke struct node
-
-struct node{
-    dataMahasiswa isidata;
-    address next;
-};
-
-struct linkedlist{ //ini linked list nya
-    address first;
-};
-
-//semua function & prosedur yang akan dipakai
-bool isEmpty(linkedlist List);
-void createList(linkedlist &List);
-address alokasi(string nama, string nim, int umur);
-void dealokasi(address &node);
-void printList(linkedlist List);
-void insertFirst(linkedlist &List, address nodeBaru);
-void insertAfter(linkedlist &List, address nodeBaru, address Prev);
-void insertLast(linkedlist &List, address nodeBaru);
-
-#endif
-```
-Berdasarkan kode yang dilampirkan, ketiga file tersebut saling berhubungan untuk mengimplementasikan dan menguji sebuah *linked list* tunggal dengan data bertipe `mahasiswa`. File **list1.h** bertindak sebagai *header* yang mendefinisikan struktur data (`mahasiswa`, `node`, dan `linkedlist`), alias tipe data (`dataMahasiswa`, `address`), serta mendeklarasikan semua fungsi dan prosedur yang akan diimplementasikan untuk operasi *linked list*. File **listguided1.cpp** berisi implementasi dari fungsi-fungsi yang dideklarasikan di `list1.h`, seperti `isEmpty`, `createList`, `alokasi`, `dealokasi`, `insertFirst`, `insertAfter`, `insertLast`, dan `printList`, yang semuanya berfungsi untuk memanipulasi *linked list* (misalnya membuat, menambah elemen, dan menampilkan isinya). Terakhir, file **mainguided1.cpp** adalah program utama (`main`) yang menggunakan fungsi-fungsi dari kedua file sebelumnya; ia menginisialisasi *linked list* kosong, mengalokasikan beberapa *node* mahasiswa, memasukkannya ke dalam list menggunakan berbagai prosedur `insert`, dan kemudian menampilkan isi list yang dihasilkan untuk menguji implementasi.
-    
 ## Unguided 
 
-### 1. Buatlah ADT Singly Linked list sebagai berikut di dalam file “Singlylist.h”
+### 1. Buatlah searcing untuk mencari nama pembeli pada unguided sebelumnya.
+`unguided1.cpp`
 ```C++
-Type infotype : int
-Type address : pointer to ElmList
-Type ElmList <
-    info : infotype
-    next : address
->
-Type List : < First : address >
-procedure CreateList( input/output L : List )
-function alokasi( x : infotype ) -> address
-procedure dealokasi( input/output P : address )
-procedure printInfo( input L : List )
-procedure insertFirst( input/output L : List, input P : address )
-```
-### Kemudian buatlah implementasi dari procedure-procedure yang digunakan didalam file “Singlylist.cpp”. Kemudian buat program utama didalam file “main.cpp” dengan implementasi sebagai berikut :
-```C++
-int main() {
-    List L;
-    address P1, P2, P3, P4, P5 = Nil;
-
-    createList(L);
-
-    P1 = alokasi(2);
-    insertFirst(L, P1);
-
-    P2 = alokasi(0);
-    insertFirst(L, P2);
-
-    P3 = alokasi(8);
-    insertFirst(L, P3);
-
-    P4 = alokasi(12);
-    insertFirst(L, P4);
-
-    P5 = alokasi(9);
-    insertFirst(L, P5);
-
-    printInfo(L);
-    
-    return 0;
-}
-```
-### KODE PROGRAM
-#### main.cpp
-```C++
-// File: main.cpp
-
-#include "ungu1singlist.h"
 #include <iostream>
-
 using namespace std;
 
+struct node {
+   string nama;
+   string pesanan;
+   node*  next;
+};
+
+node* head = nullptr;
+node* tail = nullptr;
+
+node* tambah_node(string nama, string pesanan) {
+   node* new_node    = new node();
+   new_node->nama    = nama;
+   new_node->pesanan = pesanan;
+   new_node->next    = nullptr;
+   return new_node;
+}
+
+void tambah_antrian(string nama, string pesanan) {
+   node* new_node = tambah_node(nama, pesanan);
+
+   if (head == nullptr) {
+      head = tail = new_node;
+   } else {
+      tail->next = new_node;
+      tail       = new_node;
+   }
+
+   cout << "antrian atas nama " << nama << " dengan pesanan " << pesanan << " berhasil ditambahkan.\n";
+}
+
+void layani_antrian() {
+   if (head == nullptr) {
+      cout << "antrian kosong, bikin antrian dulu.\n";
+      return;
+   }
+
+   node* temp = head;
+
+   cout << "melayani antrian atas nama " << temp->nama << " dengan pesanan " << temp->pesanan << ".\n";
+
+   head = head->next;
+
+   delete temp;
+
+   if (head == nullptr) {
+      tail = nullptr;
+   }
+}
+
+void tampilkan_antrian() {
+   if (head == nullptr) {
+       cout << "antrian kosong.\n";
+       return;
+   }
+
+   node* temp = head;
+   int nomor = 1;
+
+   cout << "\n=== daftar antrian ===\n";
+
+   while (temp != nullptr) {
+       cout << nomor++ << ". nama: " << temp->nama << ", pesanan: " << temp->pesanan << endl;
+       temp = temp->next;
+   }
+}
+
+void cari_pembeli(string nama_dicari) {
+   if (head == nullptr) {
+      cout << "antrian kosong, tidak ada data untuk dicari.\n";
+      return;
+   }
+
+   node* temp = head;
+   int posisi = 1;
+
+   bool ketemu = false;
+
+   while (temp != nullptr) {
+      if (temp->nama == nama_dicari) {
+         cout << "pembeli ada di posisi ke-" << posisi 
+              << " dengan pesanan " << temp->pesanan << endl;
+         ketemu = true;
+         break;
+      }
+      temp = temp->next;
+      posisi++;
+   }
+
+   if (!ketemu) {
+      cout << "pembeli dengan nama " << nama_dicari << " tidak ditemukan dalam antrian.\n";
+   }
+}
+
 int main() {
-    List L;
-    address P1, P2, P3, P4, P5 = NULL;
+   int pilihan;
+   string nama, pesanan;
 
-    createList(&L);
+   do {
+       cout << "\n=== menu antrian pembeli ===\n";
+       cout << "1. tambah antrian\n";
+       cout << "2. layani antrian\n";
+       cout << "3. tampilkan antrian\n";
+       cout << "4. cari pembeli\n"; // menu baru untuk searching
+       cout << "0. keluar\n";
+       cout << "pilih: ";
+       cin >> pilihan;
+       cin.ignore();
 
-    P1 = alokasi(2);
-    insertFirst(&L, P1);
+       switch (pilihan) {
+           case 1:
+               cout << "masukkan nama pembeli: ";
+               getline(cin, nama); // input bisa pakai spasi
+               cout << "masukkan pesanan: ";
+               getline(cin, pesanan);
+               tambah_antrian(nama, pesanan);
+               break;
 
-    P2 = alokasi(0);
-    insertFirst(&L, P2);
+           case 2:
+               layani_antrian(); // hapus antrian paling depan
+               break;
 
-    P3 = alokasi(8);
-    insertFirst(&L, P3);
+           case 3:
+               tampilkan_antrian(); // tampilkan semua antrian
+               break;
 
-    P4 = alokasi(12);
-    insertFirst(&L, P4);
+           case 4:
+               cout << "masukkan nama pembeli yang ingin dicari: ";
+               getline(cin, nama);
+               cari_pembeli(nama); // panggil fungsi baru
+               break;
 
-    P5 = alokasi(9);
-    insertFirst(&L, P5);
+           case 0:
+               cout << "program selesai.\n";
+               break;
 
-    printInfo(L);
+           default:
+               cout << "pilihan tidak valid!\n";
+       }
+   } while (pilihan != 0); // berhenti kalau user milih 0
 
-    // Bagian tambahan untuk membersihkan memori (dealokasi semua elemen)
-    address current = L.First;
-    address temp;
-    while (current != NULL) {
-        temp = current;
-        current = current->next;
-        dealokasi(temp);
-    }
-    L.First = NULL;
-
-    return 0;
+   return 0;
 }
 ```
-#### list.cpp
-```C++
-// File: Singlylist.h
 
-#ifndef SINGLYLIST_H
-#define SINGLYLIST_H
-
-typedef int infotype;
-typedef struct ElmList *address;
-
-typedef struct ElmList {
-    infotype info;
-    address next;
-} ElmList;
-
-typedef struct {
-    address First;
-} List;
-
-void createList(List *L);
-address alokasi(infotype X);
-void dealokasi(address P);
-
-void insertFirst(List *L, address P);
-void printInfo(List L);
-
-#endif // SINGLYLIST_H
-```
-#### singlylist.h
-```C++
-// File: Singlylist.h
-
-#ifndef SINGLYLIST_H
-#define SINGLYLIST_H
-
-typedef int infotype;
-typedef struct ElmList *address;
-
-typedef struct ElmList {
-    infotype info;
-    address next;
-} ElmList;
-
-typedef struct {
-    address First;
-} List;
-
-void createList(List *L);
-address alokasi(infotype X);
-void dealokasi(address P);
-
-void insertFirst(List *L, address P);
-void printInfo(List L);
-
-#endif // SINGLYLIST_H
-```
 #### Output:
-<img width="679" height="242" alt="image" src="https://github.com/user-attachments/assets/af8f3f5c-a963-40c4-9472-9ab0b221b23e" />
+<img width="916" height="709" alt="image" src="https://github.com/user-attachments/assets/0f532ab9-d21b-416c-a9bf-6749b113438b" />
 
+Program C++ ini mengimplementasikan konsep struktur data Queue (antrean) menggunakan Single Linked List untuk mensimulasikan sistem pelayanan pembeli secara dinamis. Setiap elemen dalam antrean direpresentasikan oleh sebuah node yang menyimpan informasi berupa nama pembeli dan jenis pesanan, serta sebuah pointer next untuk menyambungkan ke pengantre berikutnya. Berbeda dengan implementasi list biasa, program ini menggunakan dua pointer khusus, yaitu head untuk menandai bagian depan antrean dan tail untuk menandai bagian belakang, sehingga proses penambahan data menjadi lebih efisien.
 
-Ketiga file C++ ini bekerja sama untuk mengimplementasikan dan menguji **ADT (Abstract Data Type) Singly Linked List**. File **`unguided1list.h`** berfungsi sebagai *interface*, mendefinisikan struktur data (`List`, `ElmList`, `address`) dan mendeklarasikan *prototype* untuk operasi dasar (seperti `createList`, `alokasi`, `insertFirst`, dan `printInfo`). File **`unguided1list.cpp`** menyediakan **implementasi** konkret dari semua *prototype* yang ada di file header, berisi kode logis untuk manajemen memori dan manipulasi pointer. Terakhir, file **`unguided1main.cpp`** bertindak sebagai **program utama** yang menguji ADT tersebut dengan membuat sebuah *list* kosong, mengalokasikan dan menyisipkan lima elemen data (`2, 0, 8, 12, 9`) secara berurutan menggunakan prosedur `insertFirst`, dan kemudian mencetak isi *list* tersebut ke konsol.
+Operasi utama dalam program ini mengikuti prinsip FIFO (First-In, First-Out), di mana pembeli yang pertama kali datang akan dilayani terlebih dahulu. Fungsi tambah_antrian memasukkan data melalui posisi tail, sementara fungsi layani_antrian menghapus data dari posisi head dan membebaskan memorinya menggunakan instruksi delete. Selain manajemen antrean dasar, program ini juga dilengkapi dengan fitur tambahan seperti tampilkan_antrian untuk melihat daftar seluruh pengantre dan cari_pembeli untuk melakukan pencarian linear guna menemukan posisi spesifik seorang pembeli berdasarkan namanya. Seluruh fitur tersebut diatur dalam sebuah menu interaktif berbasis teks yang memungkinkan pengguna mengelola data secara fleksibel hingga program dihentikan.
 
 #### Full code Screenshot:
-<img width="396" height="973" alt="image" src="https://github.com/user-attachments/assets/18bdbe7c-186b-4db6-a430-1fa75c405cc9" />
-<img width="453" height="529" alt="image" src="https://github.com/user-attachments/assets/8e3a6fff-76d9-4802-857d-f10419fcb3c9" />
-<img width="667" height="855" alt="image" src="https://github.com/user-attachments/assets/3d07b937-0873-4703-9f60-e9d3d8b240a2" />
+<img width="1690" height="974" alt="image" src="https://github.com/user-attachments/assets/a012349c-1bf9-4734-b6c2-64a23236c217" />
 
-### 2. Dari soal Latihan pertama, lakukan penghapusan node 9 menggunakan deleteFirst(), node 2 menggunakan deleteLast(), dan node 8 menggunakan deleteAfter(). Kemudian tampilkan jumlah node yang tersimpan menggunakan nbList() dan lakukan penghapusan seluruh node menggunakan deleteList().
-
-#### main.cpp
+### 2. gunakan latihan pada pertemuan minggun ini dan tambahkan searching untuk mencari buku berdasarkan judul, penulis, dan ISBN.
+`unguided2.cpp`
 ```C++
-// File: unguided1main.cpp
-
-#include "ungu2singlist.h"
 #include <iostream>
-
 using namespace std;
+
+struct Node {
+   int isbn;
+   string judul;
+   string penulis;
+   Node* next;
+};
+
+Node* head = nullptr;
+
+Node* buat_node(int isbn, string judul, string penulis) {
+   Node* newNode = new Node();
+   newNode->isbn = isbn;
+   newNode->judul = judul;
+   newNode->penulis = penulis;
+   newNode->next = nullptr;
+   return newNode;
+}
+
+void tambah_buku(int isbn, string judul, string penulis) {
+   Node* newNode = buat_node(isbn, judul, penulis);
+   if (head == nullptr) {
+      head = newNode;
+   } else {
+      Node* temp = head;
+      while (temp->next != nullptr) temp = temp->next;
+      temp->next = newNode;
+   }
+   cout << "buku \"" << judul << "\" oleh " << penulis << " dengan isbn " << isbn << " berhasil ditambahkan.\n";
+}
+
+void hapusNode(int isbn) {
+   if (head == nullptr) {
+      cout << "list kosong!\n";
+      return;
+   }
+   Node* temp = head;
+   Node* prev = nullptr;
+   if (temp != nullptr && temp->isbn == isbn) {
+      head = temp->next;
+      delete temp;
+      cout << "buku dengan isbn " << isbn << " berhasil dihapus.\n";
+      return;
+   }
+   while (temp != nullptr && temp->isbn != isbn) {
+      prev = temp;
+      temp = temp->next;
+   }
+   if (temp == nullptr) {
+      cout << "isbn " << isbn << " tidak ditemukan!\n";
+      return;
+   }
+   prev->next = temp->next;
+   delete temp;
+   cout << "buku dengan isbn " << isbn << " berhasil dihapus.\n";
+}
+
+void updateNode(int isbnLama, int isbnBaru, string judulBaru, string penulisBaru) {
+   Node* temp = head;
+   while (temp != nullptr && temp->isbn != isbnLama) temp = temp->next;
+   if (temp == nullptr) {
+      cout << "isbn " << isbnLama << " tidak ditemukan!\n";
+   } else {
+      temp->isbn = isbnBaru;
+      temp->judul = judulBaru;
+      temp->penulis = penulisBaru;
+      cout << "buku berhasil diupdate jadi: " << judulBaru << " oleh " << penulisBaru << " (isbn " << isbnBaru << ")\n";
+   }
+}
+
+void tampilkanList() {
+   if (head == nullptr) {
+      cout << "list kosong!\n";
+      return;
+   }
+   Node* temp = head;
+   cout << "isi linked list:\n";
+   while (temp != nullptr) {
+      cout << "isbn: " << temp->isbn << ", judul: " << temp->judul << ", penulis: " << temp->penulis << endl;
+      temp = temp->next;
+   }
+}
+
+void cariBuku() {
+   if (head == nullptr) {
+      cout << "list kosong!\n";
+      return;
+   }
+   int pilihan;
+   cout << "\n1. cari berdasarkan ISBN\n2. cari berdasarkan Judul\n3. cari berdasarkan Penulis\npilih: ";
+   cin >> pilihan;
+   cin.ignore();
+   Node* temp = head;
+   bool ditemukan = false;
+
+   if (pilihan == 1) {
+      int cariISBN;
+      cout << "masukkan ISBN: ";
+      cin >> cariISBN;
+      while (temp != nullptr) {
+         if (temp->isbn == cariISBN) {
+            cout << "ditemukan: " << temp->judul << " oleh " << temp->penulis << endl;
+            ditemukan = true;
+         }
+         temp = temp->next;
+      }
+   } else if (pilihan == 2) {
+      string cariJudul;
+      cout << "masukkan judul: ";
+      getline(cin, cariJudul);
+      while (temp != nullptr) {
+         if (temp->judul == cariJudul) {
+            cout << "ditemukan: ISBN " << temp->isbn << ", penulis: " << temp->penulis << endl;
+            ditemukan = true;
+         }
+         temp = temp->next;
+      }
+   } else if (pilihan == 3) {
+      string cariPenulis;
+      cout << "masukkan penulis: ";
+      getline(cin, cariPenulis);
+      while (temp != nullptr) {
+         if (temp->penulis == cariPenulis) {
+            cout << "ditemukan: " << temp->judul << " (ISBN " << temp->isbn << ")\n";
+            ditemukan = true;
+         }
+         temp = temp->next;
+      }
+   } else {
+      cout << "pilihan tidak valid!\n";
+      return;
+   }
+
+   if (!ditemukan) cout << "data tidak ditemukan!\n";
+}
 
 int main() {
-    List L;
-    address P1, P2, P3, P4, P5;
+   int pilihan, isbn, isbnBaru;
+   string judul, penulis, judulBaru, penulisBaru;
+   do {
+      cout << "\n=== menu single linked list buku ===\n";
+      cout << "1. insert belakang\n";
+      cout << "2. hapus isbn\n";
+      cout << "3. update buku\n";
+      cout << "4. tampilkan list\n";
+      cout << "5. cari buku\n";
+      cout << "0. keluar\n";
+      cout << "pilih: ";
+      cin >> pilihan;
 
-    createList(&L);
-
-    P1 = alokasi(2); insertFirst(&L, P1);
-    P2 = alokasi(0); insertFirst(&L, P2);
-    P3 = alokasi(8); insertFirst(&L, P3);
-    P4 = alokasi(12); insertFirst(&L, P4);
-    P5 = alokasi(9); insertFirst(&L, P5);
-
-    cout << "List Awal (untuk verifikasi): ";
-    printInfo(L);
-    cout << endl << endl;
-
-    address P_del;
-    
-    deleteFirst(&L, &P_del);
-    dealokasi(P_del);
-    
-    deleteLast(&L, &P_del); 
-    dealokasi(P_del);
-    
-    address Prec = search(L, 12); 
-
-    if (Prec != NULL && Prec->next != NULL && Prec->next->info == 8) {
-        deleteAfter(&L, &P_del, Prec);
-        dealokasi(P_del);
-    }
-
-    printInfo(L);
-    cout << endl; 
-    
-    cout << "Jumlah node : " << nbList(L) << endl; 
-
-    deleteList(&L);
-    cout << endl << "- List Berhasil Terhapus -" << endl;
-
-    cout << "Jumlah node : " << nbList(L) << endl; 
-
-    return 0;
+      switch (pilihan) {
+         case 1:
+            cout << "masukkan isbn: ";
+            cin >> isbn;
+            cin.ignore();
+            cout << "masukkan judul: ";
+            getline(cin, judul);
+            cout << "masukkan penulis: ";
+            getline(cin, penulis);
+            tambah_buku(isbn, judul, penulis);
+            break;
+         case 2:
+            cout << "masukkan isbn yang ingin dihapus: ";
+            cin >> isbn;
+            hapusNode(isbn);
+            break;
+         case 3:
+            cout << "masukkan isbn lama: ";
+            cin >> isbn;
+            cout << "masukkan isbn baru: ";
+            cin >> isbnBaru;
+            cin.ignore();
+            cout << "masukkan judul baru: ";
+            getline(cin, judulBaru);
+            cout << "masukkan penulis baru: ";
+            getline(cin, penulisBaru);
+            updateNode(isbn, isbnBaru, judulBaru, penulisBaru);
+            break;
+         case 4:
+            tampilkanList();
+            break;
+         case 5:
+            cariBuku();
+            break;
+         case 0:
+            cout << "program selesai.\n";
+            break;
+         default:
+            cout << "pilihan tidak valid!\n";
+      }
+   } while (pilihan != 0);
+   return 0;
 }
-```
-#### list.cpp
-```C++
-// File: unguided1list.cpp
-
-#include "ungu2singlist.h"
-#include <iostream>
-
-using namespace std;
-
-void createList(List *L) {
-    (*L).First = NULL;
-}
-
-address alokasi(infotype X) {
-    address P = new ElmList;
-    if (P != NULL) {
-        P->info = X;
-        P->next = NULL;
-    }
-    return P;
-}
-
-void dealokasi(address P) {
-    delete P;
-}
-
-void insertFirst(List *L, address P) {
-    if (P != NULL) {
-        P->next = (*L).First;
-        (*L).First = P;
-    }
-}
-
-void printInfo(List L) {
-    address P = L.First;
-    if (P == NULL) return; 
-
-    while (P != NULL) {
-        cout << P->info << " ";
-        P = P->next;
-    }
-}
-
-address search(List L, infotype X) {
-    address P = L.First;
-    while (P != NULL) {
-        if (P->info == X) {
-            return P;
-        }
-        P = P->next;
-    }
-    return NULL;
-}
-
-int nbList(List L) {
-    int count = 0;
-    address P = L.First;
-    while (P != NULL) {
-        count++;
-        P = P->next;
-    }
-    return count;
-}
-
-void deleteFirst(List *L, address *P) {
-    *P = (*L).First;
-    if (*P != NULL) {
-        (*L).First = (*L).First->next;
-        (*P)->next = NULL; 
-    }
-}
-
-void deleteLast(List *L, address *P) {
-    address Last = (*L).First;
-    address Prec = NULL;
-    
-    if (Last != NULL && Last->next == NULL) {
-        *P = Last;
-        (*L).First = NULL;
-        return;
-    }
-
-    while (Last != NULL && Last->next != NULL) {
-        Prec = Last;
-        Last = Last->next;
-    }
-
-    if (Last != NULL) {
-        *P = Last;
-        Prec->next = NULL;
-    }
-}
-
-void deleteAfter(List *L, address *Pdel, address Prec) {
-    if (Prec != NULL && Prec->next != NULL) {
-        *Pdel = Prec->next;
-        Prec->next = (*Pdel)->next;
-        (*Pdel)->next = NULL;
-    } else {
-        *Pdel = NULL;
-    }
-}
-
-void deleteList(List *L) {
-    address P;
-    while ((*L).First != NULL) {
-        deleteFirst(L, &P);
-        dealokasi(P);
-    }
-}
-```
-#### singlylist.h
-```C++
-// File: unguided1list.h
-
-#ifndef UNGUIDED1LIST_H
-#define UNGUIDED1LIST_H
-
-typedef int infotype;
-typedef struct ElmList *address;
-
-typedef struct ElmList {
-    infotype info;
-    address next;
-} ElmList;
-
-typedef struct {
-    address First;
-} List;
-
-void createList(List *L);
-address alokasi(infotype X);
-void dealokasi(address P);
-
-void insertFirst(List *L, address P);
-void printInfo(List L);
-
-int nbList(List L);
-address search(List L, infotype X); 
-void deleteFirst(List *L, address *P);
-void deleteLast(List *L, address *P);
-void deleteAfter(List *L, address *Pdel, address Prec);
-void deleteList(List *L);
-
-#endif // UNGUIDED1LIST_H
 ```
 
 #### Output
-<img width="830" height="187" alt="image" src="https://github.com/user-attachments/assets/b739ad86-870c-4cea-8407-ccb006ff0660" />
-Ketiga berkas tersebut membentuk implementasi **struktur data *singly linked list*** dalam bahasa C++. Berkas **`ungu2singlist.h`** mendefinisikan tipe data dasar (*`infotype`* sebagai *`int`*, *`address`* sebagai pointer ke *`ElmList`*, dan struktur *`ElmList`* serta *`List`*) dan mendeklarasikan semua fungsi/prosedur operasi *list*. Berkas **`ungu2list.cpp`** berisi implementasi lengkap dari prosedur-prosedur yang dideklarasikan, seperti inisialisasi (*`createList`*), alokasi/dealokasi elemen (*`alokasi`*, *`dealokasi`*), penyisipan (*`insertFirst`*), pencarian (*`search`*), perhitungan jumlah elemen (*`nbList`*), pencetakan (*`printInfo`*), dan penghapusan elemen dari awal, akhir, dan setelah elemen tertentu (*`deleteFirst`*, *`deleteLast`*, *`deleteAfter`*, serta *`deleteList`* untuk menghapus seluruh list). Terakhir, berkas **`ungu2main.cpp`** berfungsi sebagai program utama yang menggunakan semua operasi tersebut: ia membuat list `L`, menyisipkan lima nilai (9, 12, 8, 0, 2) menggunakan `insertFirst`, lalu melakukan serangkaian operasi penghapusan (*`deleteFirst`*, *`deleteLast`*, *`deleteAfter`* untuk menghapus elemen 8), mencetak sisa list, menghitung jumlah node, dan akhirnya menghapus seluruh list menggunakan `deleteList`.
+<img width="1018" height="598" alt="image" src="https://github.com/user-attachments/assets/727b530e-c8e1-4e6f-ac02-91368671b853" />
 
+Program C++ ini merupakan pengembangan dari sistem manajemen buku berbasis Single Linked List yang mengelola koleksi pustaka secara dinamis di dalam memori. Inti dari program ini terletak pada struktur Node yang menyimpan tiga jenis informasi utama, yaitu ISBN, judul buku, dan penulis, serta sebuah pointer next yang menghubungkan elemen satu ke elemen lainnya. Penggunaan linked list memungkinkan program untuk menambah atau menghapus data buku tanpa perlu mendefinisikan kapasitas maksimal di awal, memberikan fleksibilitas yang lebih besar dibandingkan penggunaan struktur array statis.
+
+Secara fungsional, program ini menawarkan kontrol penuh terhadap data melalui sistem menu interaktif. Fitur unggulan dalam versi ini adalah fungsi cariBuku yang lebih kompleks, di mana pengguna tidak hanya bisa mencari berdasarkan ISBN, tetapi juga memiliki opsi pencarian berdasarkan judul atau nama penulis melalui sub-menu khusus. Selain itu, program menyediakan logika penghapusan data yang aman (hapusNode) dengan menyambungkan kembali rantai pointer sebelum memori dibebaskan, serta fitur pembaruan data (updateNode) yang memungkinkan modifikasi total pada informasi buku yang sudah terdaftar. Seluruh operasi ini dilakukan dalam siklus perulangan yang akan terus berjalan hingga pengguna memilih untuk keluar dari program.
 #### Full Code Screenshot
-<img width="1451" height="870" alt="image" src="https://github.com/user-attachments/assets/d86758a1-0937-4dc6-99d1-bd3d270bdaa1" />
-<img width="1455" height="865" alt="image" src="https://github.com/user-attachments/assets/fb66fd2e-2f0f-47dd-a664-a10a558fb63a" />
-<img width="1646" height="937" alt="image" src="https://github.com/user-attachments/assets/7fc91afa-901e-488d-9cea-e868acdac44b" />
+<img width="1690" height="980" alt="image" src="https://github.com/user-attachments/assets/df5cdf21-278e-470a-8e10-d7b4dda18455" />
 
 
 
 ## Kesimpulan
 Praktikum ini berhasil mengimplementasikan struktur data **singly linked list** dalam C++, mencakup definisi node (`ElmList`) dan kepala list (`List`), serta seluruh operasi manipulasi esensial seperti inisialisasi (`createList`), manajemen memori dinamis (`alokasi`, `dealokasi`), penyisipan (`insertFirst`), pencarian (`search`), dan berbagai jenis penghapusan (`deleteFirst`, `deleteLast`, `deleteAfter`). Program utama menguji fungsionalitas ini dengan membangun list awal **9, 12, 8, 0, 2** dan kemudian secara berurutan menghapus elemen pertama (9), elemen terakhir (2), dan elemen setelah 12 (8), menyisakan **12, 0**. Pembelajaran utama yang didapat adalah pemahaman mendalam tentang peran **pointer (`address`)** dalam menghubungkan node secara non-sekuensial, efisiensi waktu $O(1)$ untuk operasi di awal list, kompleksitas $O(n)$ untuk operasi di akhir list, dan pentingnya **manajemen memori eksplisit** untuk mencegah *memory leak*.
+
+
+## Daftar Pustaka
+- Daimabali. (2019, 27 Desember). *Mengenal Single Linked List dalam Struktur Data*. https://daismabali.com/artikel_detail/54/1/Mengenal-Single-Linked-List-dalam-Struktur-Data.html[1]
+- Dosen UPI-YAI. (n.d.). *STRUKTUR DATA Linked List*. https://dosen.upi-yai.ac.id/v5/dokumen/materi/011061/73_20230527020432_Pert%2008%20-%20Linked%20List.pdf[2]
+- Rumah Coding. (2024, 24 Mei). *Linked List: Pengertian dan Implementasi Dasar*. https://rumahcoding.co.id/linked-list-pengertian-dan-implementasi-dasar/[3]
+- Trivusi. (2022, Juli). *Struktur Data Linked List: Pengertian, Karakteristik, dan Jenis-jenisnya*. https://www.trivusi.web.id/2022/07/struktur-data-linked-list.html[5]
+- FIKTI UMSU. (2023, 24 Juli). *Pengertian Linked List: Struktur Data dalam Pemrograman*. https://fikti.umsu.ac.id/pengertian-linked-list-struktur-data-dalam-pemrograman/[7]
+
+[1](https://daismabali.com/artikel_detail/54/1/Mengenal-Single-Linked-List-dalam-Struktur-Data.html)
+[2](https://dosen.upi-yai.ac.id/v5/dokumen/materi/011061/73_20230527020432_Pert%2008%20-%20Linked%20List.pdf)
+[3](https://rumahcoding.co.id/linked-list-pengertian-dan-implementasi-dasar/)
+[4](http://arliansyahazhary.blogspot.com/2015/06/struktur-data-singly-linked-list.html)
+[5](https://www.trivusi.web.id/2022/07/struktur-data-linked-list.html)
+[6](https://tita.lecturer.pens.ac.id/ASD/M4_SLL_Insert/Single%20Linked%20List%20INSERT%20&%20DELETE.pdf)
+[7](https://fikti.umsu.ac.id/pengertian-linked-list-struktur-data-dalam-pemrograman/)
+[8](https://lms-paralel.esaunggul.ac.id/pluginfile.php?file=%2F86227%2Fmod_resource%2Fcontent%2F1%2FModul+Struktur+Data-Linked+List.pdf)
+[9](https://socs.binus.ac.id/2017/03/15/single-linked-list/)
+[10](https://id.scribd.com/doc/122367708/Single-Linked-List-Circular)
