@@ -157,7 +157,7 @@ Program di atas merupakan implementasi dari struktur data Multi Linked List yang
 
 ## Unguided 
 ### buat multilist.cpp untuk implementasi semua fungsi pada multilist.h. Buat main.cpp untuk pemanggilan fungsi-fungsi tersebut.
-`multilinklist.h`
+`multilist.h`
 ```C++
 #ifndef MULTILIST_H_INCLUDED
 #define MULTILIST_H_INCLUDED
@@ -241,7 +241,7 @@ void del_all(listinduk &L);
 
 #endif
 ```
-`multilinklist.cpp`
+`multilist.cpp`
 ```C++
 #include <iostream>
 #include "multilist.h"
